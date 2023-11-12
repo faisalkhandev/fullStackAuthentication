@@ -1,6 +1,6 @@
 const userController = (req, res) => {
     res.json({
-        message: 'hello Controller'
+        message: 'hello userSaab'
     })
 }
 
