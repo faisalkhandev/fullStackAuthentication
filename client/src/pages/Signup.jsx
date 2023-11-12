@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+// import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Signup() {
-
-    const [formData, setFormData] = useState({})
+    const [formData, setFormData] = useState({});
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
 
     function handleChange(e) {
         setFormData({
             ...formData,
-            [e.target.id]: e.target.value
-
-        })
+            [e.target.id]: e.target.value,
+        });
     }
     async function handleData(event) {
         try {
+            setLoading(true)
             event.preventDefault();
             const response = await fetch("/api/auth/signup", {
                 method: "POST",
@@ -22,10 +25,17 @@ function Signup() {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
+            console.log(data)
             setFormData(data);
-            console.log(formData);
+            setLoading(false)
+            setError(false)
+            if (data.success === false) {
+                setError(true)
+                return;
+            }
         } catch (error) {
-            console.log("Error:", error);
+            setLoading(false)
+            setError(true)
         }
     }
 
@@ -40,7 +50,6 @@ function Signup() {
                     id="username"
                     className="bg-slate-100 p-3 rounded-lg "
                     onChange={handleChange}
-
                 />
                 <input
                     type="text"
@@ -57,12 +66,17 @@ function Signup() {
                     onChange={handleChange}
                 />
                 <button
+                    disabled={loading}
                     type="submit"
                     className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75 "
                 >
-                    SignUp
+                    {loading ? "loading..." : "Signup"}
                 </button>
+
             </form>
+
+            <div className="text-red-600 font-bold">{error ? "Something went wrong! " : ""}</div>
+
 
             <div className="flex gap-2 mt-4">
                 <p>Have an account</p>
