@@ -32,8 +32,10 @@ export const signin = async (req, res, next) => {
 
         if (!validPassword) return next(errorHandler(401, 'User not found,pass'));
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
-        
-
+        const { password: hashedPassword, ...rest } = validUser._doc
+        //cookies expires after 1 hours 
+        const expireDate = new Date(Date.now() + 3600000)
+        res.cookie('access_token', token, { httpOnly: true, expires: expireDate }).status(200).json(rest)
 
 
     } catch (error) {
