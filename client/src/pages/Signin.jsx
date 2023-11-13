@@ -5,12 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { signInFailure, signInProcess, signInStart } from "../redux/user/userSlice";
 
+import Loader from "../loader/Loader";
+
 
 function Signin() {
     const [formData, setFormData] = useState({});
     const { error, loading } = useSelector((state) => state.user)
-    // const [loading, setLoading] = useState(false)
-    // const [error, setError] = useState(false)
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -32,10 +33,9 @@ function Signin() {
                 body: JSON.stringify(formData),
             });
             const data = await response.json();
-            // console.log(data)
 
             if (data.success === false) {
-                dispatch(signInFailure());
+                dispatch(signInFailure(error.message));
                 return;
             }
             dispatch(signInProcess(data))
@@ -69,13 +69,10 @@ function Signin() {
                     disabled={loading}
                     type="submit"
                     className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75 "
-                >
-                    {loading ? "loading..." : "Sign in"}
-                </button>
-
+                > Sign in </button>
             </form>
-
-            <div className="text-red-600 font-bold">{error ? "Something went wrong! " : ""}</div>
+            {loading ? <Loader /> : ""}
+            <div className="text-red-600 font-bold mt-2">{error ? "user not found " : ""}</div>
 
 
             <div className="flex gap-2 mt-4">
