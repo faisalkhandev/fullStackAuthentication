@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function Signup() {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
+    const navigate = useNavigate()
 
     function handleChange(e) {
         setFormData({
@@ -33,6 +34,7 @@ function Signup() {
                 setError(true)
                 return;
             }
+            navigate('/sign-in')
         } catch (error) {
             setLoading(false)
             setError(true)
@@ -41,7 +43,7 @@ function Signup() {
 
     return (
         <div className="p-3 max-w-lg mx-auto">
-            <h1 className="text-3xl font-bold text-center">Sing Up</h1>
+            <h1 className="text-3xl font-bold text-center my-7">Sing Up</h1>
 
             <form onSubmit={handleData} className="flex flex-col gap-4 pt-4">
                 <input
