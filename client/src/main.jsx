@@ -5,6 +5,10 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { persistor, store } from './redux/store.js'
 import { PersistGate } from 'redux-persist/integration/react'
+import { rehydrateUser } from './redux/user/userSlice.js'
+
+
+store.dispatch(rehydrateUser());
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

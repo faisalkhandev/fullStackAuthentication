@@ -6,11 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { signInFailure, signInProcess, signInStart } from "../redux/user/userSlice";
 
 import Loader from "../loader/Loader";
+import { OAuth } from "../components";
+
 
 
 function Signin() {
     const [formData, setFormData] = useState({});
-    const { error = null, loading } = useSelector((state) => state.user)
+    const { error, loading } = useSelector((state) => state.user)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -21,6 +23,8 @@ function Signin() {
             [e.target.id]: e.target.value,
         });
     }
+
+
     async function handleData(event) {
         try {
             dispatch(signInStart());
@@ -70,6 +74,7 @@ function Signin() {
                     type="submit"
                     className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75 "
                 > Sign in </button>
+                <OAuth />
             </form>
             {loading ? <Loader /> : ""}
 
