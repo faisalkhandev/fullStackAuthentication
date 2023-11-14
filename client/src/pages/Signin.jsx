@@ -35,7 +35,7 @@ function Signin() {
             const data = await response.json();
 
             if (data.success === false) {
-                dispatch(signInFailure(error.message));
+                dispatch(signInFailure(data));
                 return;
             }
             dispatch(signInProcess(data))
@@ -72,7 +72,6 @@ function Signin() {
                 > Sign in </button>
             </form>
             {loading ? <Loader /> : ""}
-            <div className="text-red-600 font-bold mt-2">{error ? "user not found " : ""}</div>
 
 
             <div className="flex gap-2 mt-4">
@@ -81,6 +80,8 @@ function Signin() {
                     <span className="text-blue-500"> Sign up</span>
                 </Link>
             </div>
+
+            <div className="text-red-600 font-bold mt-2">{error ? "user not found " : ""}</div>
         </div>
     );
 }
