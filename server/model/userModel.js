@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: "https://cdn-icons-png.flaticon.com/512/20/20698.png",
+        default: "https://w7.pngwing.com/pngs/686/219/png-transparent-youtube-user-computer-icons-information-youtube-hand-silhouette-avatar-thumbnail.png",
     }
 }, { timestamps: true })
 
