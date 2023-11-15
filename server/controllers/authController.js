@@ -1,7 +1,8 @@
-import user from "../model/userModel.js";
+
 import bcryptjs from 'bcryptjs'
 import { errorHandler } from "../utils/error.js";
 import jwt from 'jsonwebtoken';
+import user from "../model/userModel.js";
 
 export const signup = async (req, res, next) => {
     try {
@@ -39,4 +40,49 @@ export const signin = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+
+
+export const google = async (req, res, next) => {
+    try {
+        const googleUser = await user.findOne({
+            email: req.body.email,
+        })
+
+        if (googleUser) {
+            const token = jwt.sign(
+                { id: googleUser._id },
+                process.env.JWT_SECRET
+            )
+            const { password: hashedPassword, ...rest } = googleUser._doc;
+            const expireDate = new Date(Date.now() + 3600000)
+            res.cookie('access_token', token, { httpOnly: true, expires: expireDate }).status(200).json(rest)
+        }
+        else {
+            const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+            console.log(generatePassword)
+            const salt = bcryptjs.genSaltSync(10);
+            const hashedPassword = bcryptjs.hashSync(generatePassword, salt)
+            const newUser = new user({
+                username: req.body.name.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 10000),
+                email: req.body.email,
+                profilePicture: req.body.photo,
+                password: hashedPassword,
+            })
+            await newUser.save();
+            const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+            const { password: hashedPassword2, ...rest } = newUser._doc;
+            const expireDate = new Date(Date.now() + 3600000)
+            res.cookie('access_token', token, {
+                httpOnly: true,
+                expires: expireDate
+            }).status(200).json(rest)
+
+        }
+
+    } catch (error) {
+        next(error)
+    }
+
 }
