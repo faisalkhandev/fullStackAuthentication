@@ -29,6 +29,8 @@ app.listen(3000, () => [
     console.log('the port is listeningg at 3k!')
 ])
 
+
+
 app.use('/api/user', userRoute);
 
 app.use('/api/auth', authRoute)
@@ -36,6 +38,8 @@ app.use('/api/auth', authRoute)
 app.use('/api/auth', authRoute)
 
 app.use('/api/auth/', authRoute)
+
+
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

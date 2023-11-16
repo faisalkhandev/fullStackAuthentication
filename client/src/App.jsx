@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { About, Home, Profile, Signin, Signup } from './pages'
+import { About, Home, PageNotFound, Profile, Signin, Signup } from './pages'
 import { Header } from './components'
 import PrivateRoute from './components/PrivateRoute'
 
@@ -20,6 +20,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path='/profile' element={<Profile />} />
         </Route>
+        <Route path='/*' element={<PageNotFound />} />
       </Routes>
 
 
