@@ -3,29 +3,31 @@ import dotenv from 'dotenv';
 import mongoose from "mongoose";
 import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
+import cookieParser from 'cookie-parser';
 
 
-const app = express();
+
 dotenv.config();
+const app = express();
 
+app.use(express.json());
+
+app.use(cookieParser());
 
 //connect mongodb. 
-
 mongoose.connect(process.env.MONGO_CONNECTION).then(() => {
     console.log('the Mongodb is connected')
 })
     .catch((err) => {
-        console.log('error ', err)
+        console.log('Mongodb error: ', err)
     })
 
 
 
-app.use(express.json());
 
 app.listen(3000, () => [
     console.log('the port is listeningg at 3k!')
 ])
-
 
 app.use('/api/user', userRoute);
 
