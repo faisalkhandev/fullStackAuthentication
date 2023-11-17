@@ -1,4 +1,4 @@
-import { set } from 'mongoose';
+
 import { errorHandler } from '../utils/error.js';
 import user from './../model/userModel.js';
 import bcryptjs from 'bcryptjs'
@@ -20,7 +20,7 @@ export const updateUser = async (req, res, next) => {
 
     try {
         if (req.body.password) {
-            req.body.paswrod = bcryptjs.hashSync(req.body.password, 10)
+            req.body.passwrod = bcryptjs.hashSync(req.body.password, 10)
         }
 
         const updatedUser = await user.findByIdAndUpdate(

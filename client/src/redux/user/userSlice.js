@@ -26,7 +26,20 @@ const userSlice = createSlice({
         },
         rehydrateUser: (state, action) => {
             return { ...state, ...action }
-        }
+        },
+        updateUserStart: (state) => {
+            state.loading = true;
+        },
+        updateUserInProcess: (state, action) => {
+            state.currentUser = action.payload;
+            state.loading = false;
+            state.error = false;
+        },
+        updateUserFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+
 
 
     }
@@ -34,6 +47,6 @@ const userSlice = createSlice({
 
 
 export const { rehydrateUser } = userSlice.actions;
-export const { signInStart, signInProcess, signInFailure } = userSlice.actions;
+export const { signInStart, signInProcess, signInFailure, updateUserStart, updateUserInProcess, updateUserFailure } = userSlice.actions;
 
 export default userSlice.reducer
