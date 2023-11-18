@@ -10,7 +10,7 @@ userRoute.get('/', userController)
 
 userRoute.post('/update/:id', verifyToken, updateUser)
 
-userRoute.post('/delete/:id', verifyToken, deleteUser)
+userRoute.delete('/delete/:id', verifyToken, deleteUser)
 
 
 export default userRoute

@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef, useState } from 'react';
-import { updateUserFailure, updateUserInProcess, updateUserStart } from '../redux/user/userSlice';
+import { deleteUserFailure, deleteUserInProcess, deleteUserStart, updateUserFailure, updateUserInProcess, updateUserStart } from '../redux/user/userSlice';
 import Loader from './../loader/Loader';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -13,6 +15,7 @@ const Profile = () => {
     const { loading, error, currentUser } = useSelector((state) => state.user)
     const fileRef = useRef()
     const dispatch = useDispatch()
+    const Navigate = useNavigate()
 
     function handleChange(e) {
         setFormData({
@@ -44,6 +47,25 @@ const Profile = () => {
 
         } catch (error) {
             dispatch(updateUserFailure(error))
+        }
+    }
+
+
+    async function handleDeleteUser() {
+        try {
+            dispatch(deleteUserStart())
+
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+                method: 'DELETE',
+            })
+            const data = await res.json()
+            if (data.success === false) {
+                dispatch(deleteUserFailure(data))
+            }
+            dispatch(deleteUserInProcess(data))
+            Navigate('/')
+        } catch (error) {
+            dispatch(deleteUserFailure(error))
         }
     }
 
@@ -108,8 +130,8 @@ const Profile = () => {
 
 
             <div className='flex justify-between text-red-600 mt-2 '>
-                <span>Delete Account</span>
-                <span>Logout</span>
+                <span onClick={handleDeleteUser} className='cursor-pointer' >Delete Account</span>
+                <span className='cursor-pointer'>Logout</span>
             </div>
 
             <p className='text-red-600 mt-3' >{error ? "Something went wrong!" : ""}</p>
