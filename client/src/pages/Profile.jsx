@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef, useState } from 'react';
-import { deleteUserFailure, deleteUserInProcess, deleteUserStart, updateUserFailure, updateUserInProcess, updateUserStart } from '../redux/user/userSlice';
+import { deleteUserFailure, deleteUserInProcess, deleteUserStart, signOutUser, updateUserFailure, updateUserInProcess, updateUserStart } from '../redux/user/userSlice';
 import Loader from './../loader/Loader';
 import { useNavigate } from 'react-router-dom';
 
@@ -69,6 +69,10 @@ const Profile = () => {
         }
     }
 
+    async function handleSignout() {
+        await fetch('api/auth/signout')
+        dispatch(signOutUser())
+    }
 
     return (
         <div className='flex flex-col max-w-lg mx-auto'>
@@ -131,7 +135,7 @@ const Profile = () => {
 
             <div className='flex justify-between text-red-600 mt-2 '>
                 <span onClick={handleDeleteUser} className='cursor-pointer' >Delete Account</span>
-                <span className='cursor-pointer'>Logout</span>
+                <span onClick={handleSignout} className='cursor-pointer'>Logout</span>
             </div>
 
             <p className='text-red-600 mt-3' >{error ? "Something went wrong!" : ""}</p>
