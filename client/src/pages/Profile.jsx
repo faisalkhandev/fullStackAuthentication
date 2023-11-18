@@ -51,7 +51,8 @@ const Profile = () => {
     return (
         <div className='flex flex-col max-w-lg mx-auto'>
             {currentUser &&
-                <div className='text-center mt-9 flex justify-center items-center gap-2'>HEY <strong className='text-green-500'>{currentUser.username?.toUpperCase()} </strong>
+                <div className='text-center mt-9 flex justify-center items-center gap-2'>HEY <strong className='text-green-500'>
+                    {currentUser?.username?.toUpperCase()} </strong>
                 </div>
             }
             <input type="file"
@@ -62,7 +63,7 @@ const Profile = () => {
 
             />
             <img
-                src={currentUser.profilePicture}
+                src={currentUser?.profilePicture}
                 className='rounded-full object-cover  h-13 w-16 block m-auto mt-2 cursor-pointer'
                 onClick={() => fileRef.current.click()} />
             <p className='text-center'> You create this account at
